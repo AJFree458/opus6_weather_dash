@@ -1,23 +1,10 @@
-/* // API key
-const apiKey = "&appid=7eec630e32e425a54546a905cc476a3a";
-// Input value of the search
-let city = "london"
-var queryUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + apiKey + "&units=imperial";
-
-$.ajax({
-    url: queryUrl,
-    method: "GET"
-})
-.then(function(response){
-    console.log(response)
-}) */
 //Local Storage saved
 var savedCities = [];
 var currentCity;
 
 function initialize() {
     // Get previous Cities from local storage
-    savedCities = JSON.parse(localStorage.getItem("cityWeather"));
+    savedCities = JSON.parse(localStorage.getItem("weathercities"));
     var lastSearch;
     // Display last searches
     if (savedCities) {
@@ -54,7 +41,13 @@ function getCurrent(city) {
     var queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=7eec630e32e425a54546a905cc476a3a&units=imperial";
     $.ajax({
         url: queryUrl,
-        method: "GET"
+        method: "GET",
+        error: function() {
+            savedCities.splice(savedCities.indexOf(city), 1);
+            localStorage.setItem("weathercities", JSON.stringify(savedCities));
+            initialize();
+        }
+        
     }).then(function(response){
         // console.log(response);
         // Create the card
@@ -162,6 +155,9 @@ function clear() {
 function saveCity(loc) {
     if (savedCities === null) {
         savedCities = [loc];
+    }
+    else if (savedCities.indexOf(loc) === -1) {
+        savedCities.push(loc);
     }
     // Save the array to local storage
     localStorage.setItem("weathercities", JSON.stringify(savedCities));
