@@ -49,38 +49,31 @@ function getCurrent(city) {
         }
         
     }).then(function(response){
-        // console.log(response);
-        // Create the card
-        var currCard = $("<div>").attr("class", "card bg-light");
-        $("#currentCityWeather").append(currCard);
-
+         console.log(response);
+        
         // Location add to card header
-        var currCardHead = $("<div>").attr("class", "card-header").text("Current weather for " + response.name);
-        currCard.append(currCardHead);
+        var currCardHead = response.name;
+        $("#cardHead").text(currCardHead);
 
-        var cardRow = $("<div>").attr("class", "row no-gutters");
-        currCard.append(cardRow);
+        // Last update display
+        var currDate = moment(response.dt, "X").format("dddd, MMMM Do YYYY, h:mm a");
+        $("#updateTime").text(currDate);
 
         // get icons for weather conditions
         var iconURL = "https://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png";
 
-        var imgDiv = $("<div>").attr("class", "col-md-4").append($("<img>").attr("src", iconURL).attr("class", "card-img"));
-        cardRow.append(imgDiv);
+        var imgDiv = $("<img>").attr("src", iconURL).attr("class", "card-img");
+        $("#weatherImg").append(imgDiv);
 
-        var textDiv = $("<div>").attr("class", "col-md-8");
-        var cardBody = $("<div>").attr("class", "card-body");
-        textDiv.append(cardBody);
         //City name
-        cardBody.append($("<h3>").attr("class", "card-title").text(response.name));
-        // Last update display
-        var currDate = moment(response.dt, "X").format("dddd, MMMM Do YYY, h:mm a");
-        cardBody.append($("<p>").attr("class", "card-text").append($("<small>").attr("class", "text-muted").text("Last updated: " + currDate)));
+        $("#city").text(response.name);
+
         // Temperature display
-        cardBody.append($("<p>").attr("class", "card-text").html("Temperature: " + response.main.temp + " &#8457;"));
+        $("#temp").html("Temperature: " + response.main.temp + " &#8457;");
         // Humidity
-        cardBody.append($("<p>").attr("class", "card-text").html("Humidity: " + response.main.humidity + "%"));
+        $("#humid").html("Humidity: " + response.main.humidity + "%");
         // Wind Speed
-        cardBody.append($("<p>").attr("class", "card-text").html("Wind Speed: " + response.wind.speed + "MPH"));
+        $("#wind").html("Wind Speed: " + response.wind.speed + "MPH");
 
         //UV Index
         var uvURL = "https://api.openweathermap.org/data/2.5/uvi?appid=7eec630e32e425a54546a905cc476a3a&lat=" + response.coord.lat + "&lon=" + response.coord.lat;
@@ -102,12 +95,10 @@ function getCurrent(city) {
             else {
                 bgcolor = "red";
             }
-            var uvDisplay = $("<p>").attr("class", "card-text").text("UV Index: ");
+            var uvDisplay = $("#uvText").text("UV Index: ");
             uvDisplay.append($("<span>").attr("class", "uvindex").attr("style", ("background-color:" + bgcolor)).text(uvindex));
-            cardBody.append(uvDisplay);
 
         });
-        cardRow.append(textDiv);
         getForecast(response.id);
 
     });
@@ -121,28 +112,27 @@ function getForecast(city) {
         url: queryUrl,
         method: "GET"
     }).then(function (response) {
+        console.log(response);
         // Make a container div for the forecast cards
         var newRow = $("<div>").attr("class", "forecast");
-        $("#currentCityWeather").append(newRow);
+        $("#forecastDay").append(newRow);
 
         // Loop through the response array for the forecasts for 15:00
-        for (var i = 0; i < response.list.length; i++) {
-            if (response.list[i].dt_txt.indexOf("15:00:00") !== -1) {
-                var newCol = $("<div>").attr("class", "one-fifth");
-                newRow.append(newCol);
+        for (var i = 4; i < response.list.length; i += 8) {
+            var newCol = $("<div>").attr("class", "one-fifth");
+            newRow.append(newCol);
 
-                var newCard = $("<div>").attr("class", "card text-white bg-primary");
-                newCol.append(newCard);
+            var newCard = $("<div>").attr("class", "card text-white bg-primary");
+            newCol.append(newCard);
 
-                var cardImg = $("<img>").attr("class", "card-img-top").attr("src", "https://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + "@2x.png");
+            var cardImg = $("<img>").attr("class", "card-img-top").attr("src", "https://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + "@2x.png");
                 newCard.append(cardImg);
 
-                var bodyDiv = $("<div>").attr("class", "card-body");
+            var bodyDiv = $("<div>").attr("class", "card-body");
                 newCard.append(bodyDiv);
 
-                bodyDiv.append($("<p>").attr("class", "card-text").html("Temp: " + response.list[i].main.temp + " &#8457;"));
-                bodyDiv.append($("<p>").attr("class", "card-text").text("Humidity: " + response.list[i].main.humidity + "%"));
-            }
+            bodyDiv.append($("<p>").attr("class", "card-text").html("Temp: " + response.list[i].main.temp + " &#8457;"));
+            bodyDiv.append($("<p>").attr("class", "card-text").text("Humidity: " + response.list[i].main.humidity + "%"));            
         }
     });
 }
