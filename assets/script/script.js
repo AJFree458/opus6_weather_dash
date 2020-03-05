@@ -18,6 +18,12 @@ function initialize() {
     }
 }
 
+function setLocal() {
+    savedCities.splice(savedCities.indexOf(city), 1);
+    localStorage.setItem("weathercities", JSON.stringify(savedCities));
+
+}
+
 function showPrev() {
     // Display the previous city searches from local storage
     if (savedCities) {
@@ -41,12 +47,7 @@ function getCurrent(city) {
     var queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=7eec630e32e425a54546a905cc476a3a&units=imperial";
     $.ajax({
         url: queryUrl,
-        method: "GET",
-        error: function() {
-            savedCities.splice(savedCities.indexOf(city), 1);
-            localStorage.setItem("weathercities", JSON.stringify(savedCities));
-            initialize();
-        }
+        method: "GET"
         
     }).then(function(response){
          console.log(response);
