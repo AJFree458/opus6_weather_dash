@@ -29,7 +29,7 @@
 
             <!-- Search Column -->
 
-            <div class="col-md-3 bg-light pt-3 pb-2">
+            <div class="col-md-3 pt-3 pb-2 mt-2 background">
 
                 <h5>Search for a city:</h5>
 
@@ -44,6 +44,8 @@
 
                 <!-- Previous Cities Card -->
                 <div class="card" id="prevCities">
+                    <div class="list-group list-group-flush" id="cityBtns">
+                    </div>
                     <!-- Previous City search buttons-->
                 </div>
                 <!-- End Card -->
@@ -51,10 +53,10 @@
             </div>
 
             <!-- Display Weather Column-->
-            <div class="col-md-9">
+            <div class="col-md-9 mt-2">
 
-                <div class="container" id="currentCityWeather">
-                    <div class="card bg-light">
+                <div class="container background" id="currentCityWeather">
+                    <div class="card">
                         <div class="card-header">
                             <h3>Current Weather for: <span id="cardHead"></span></h3>
                             <h4>Last Updated: <span id="updateTime"></span></h4>
@@ -76,9 +78,9 @@
                         </div>
                     </div>
                     <div id="forecastDay">
+                        
                     </div>
 
-                    <!-- Current City Weather-->
                 </div>
 
             </div>
