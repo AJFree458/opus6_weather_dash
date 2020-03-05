@@ -67,14 +67,8 @@ function getCurrent(city) {
         $("#cardHead").text(currCardHead);
 
         // Last update display
-        var currDate = moment(response.dt, "X").format("dddd, MMMM Do YYYY");
+        var currDate = moment(response.dt, "X").format("LLLL");
         $("#updateTime").text(currDate);
-
-        // get icons for weather conditions
-        var iconURL = "https://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png";
-
-        var imgDiv = $("<img>").attr("src", iconURL).attr("class", "card-img");
-        $("#weatherImg").append(imgDiv);
 
         //City name
         $("#city").text(response.name);
@@ -85,12 +79,19 @@ function getCurrent(city) {
         // Wind Speed
         $("#wind").html("Wind Speed: " + response.wind.speed + "MPH");
 
+        // get icons for weather conditions
+        var iconURL = "https://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png";
+
+        var imgDiv = $("<img>").attr("src", iconURL).attr("class", "card-img");
+        $("#weatherImg").append(imgDiv);
+
         //UV Index
         var uvURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + response.coord.lat + "&lon=" + response.coord.lat;
         $.ajax({
             url: uvURL,
             method: "GET"
         }).then(function (uvresponse){
+            console.log(uvresponse);
             var uvindex = uvresponse.value;
             var bgcolor;
             if (uvindex <= 3) {
