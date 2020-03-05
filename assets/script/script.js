@@ -13,6 +13,7 @@ function initialize() {
     if (savedCities) {
         // Retrieve the last city
         currentCity = savedCities[savedCities.length - 1];
+        // Display previous cities
         if (savedCities) {
             $("#prevCities").empty();
     
@@ -174,7 +175,7 @@ $("#searchBtn").on("click", function() {
 $("#locationBtn").on("click", function() {
     $("#currentCityWeather").empty();
     currentCity = $(this).text();
-    showPrev();
+    initialize();
     getCurrent(currentCity);
 });
 
