@@ -3,6 +3,11 @@ const APIKey = "7eec630e32e425a54546a905cc476a3a";
 // Create var for current day card
 var cardHeader = $("#cardHead");
 var cardDate = $("#updateTime");
+var cityName = $("#city");
+var tempCity = $("#temp");
+var humidCity = $("#humid");
+var windCity = $("#wind");
+var uvDisplay = $("#uvText");
 // Create var for saved city buttons
 var btns = $("#cityBtns");
 //create var for new row in forecasts
@@ -16,7 +21,7 @@ function initialize() {
     savedCities = JSON.parse(localStorage.getItem("weathercities"));
 
     // Display last searches
-    if (savedCities) {
+    if (savedCities !== null) {
         // Retrieve the last city
         currentCity = savedCities[savedCities.length - 1];
         // Display previous cities
@@ -57,7 +62,6 @@ function saveCity(location) {
     }
     // Save the array to local storage
     localStorage.setItem("weathercities", JSON.stringify(savedCities));
-    showPrev();
 }
 
 function getCurrent(city) {
@@ -77,13 +81,13 @@ function getCurrent(city) {
         cardDate.text(currDate);
 
         //City name
-        $("#city").text(response.name);
+        cityName.text(response.name);
         // Temperature display
-        $("#temp").html("Temperature: " + response.main.temp + " &#8457;");
+        tempCity.text(response.main.temp);
         // Humidity
-        $("#humid").html("Humidity: " + response.main.humidity + "%");
+        humidCity.text(response.main.humidity);
         // Wind Speed
-        $("#wind").html("Wind Speed: " + response.wind.speed + "MPH");
+        windCity.text(response.wind.speed);
 
         // get icons for weather conditions
         var iconURL = "https://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png";
@@ -99,24 +103,23 @@ function getCurrent(city) {
         }).then(function (uvresponse){
             console.log(uvresponse);
             var uvindex = uvresponse.value;
-            var bgcolor;
+            var uvColor;
             if (uvindex <= 3) {
-                bgcolor = "green";
+                uvColor = "green";
             }
             else if (uvindex >= 3 || uvindex <= 6) {
-                bgcolor = "yellow";
+                uvColor = "yellow";
             }
             else if (uvindex >= 6 || uvindex <= 8) {
-                bgcolor = "orange";
+                uvColor = "orange";
             }
             else if (uvindex >= 8 || uvindex <= 10) {
-                bgcolor = "red";
+                uvColor = "red";
             }
             else {
-                bgcolor = "violet";
+                uvColor = "violet";
             }
-            var uvDisplay = $("#uvText").text("UV Index: ");
-            uvDisplay.append($("<span>").attr("class", "uvindex").attr("style", ("background-color:" + bgcolor)).text(uvindex));
+            uvDisplay.attr("class", "uvindex").attr("style", ("background-color:" + uvColor)).text(uvindex);
 
         });
         getForecast(response.id);
@@ -162,11 +165,9 @@ function getForecast(city) {
 }
 
 $("#searchBtn").on("click", function() {
-    // Prevent refresh
-    event.preventDefault();
     // Retrieve the input value
     var location = $("#searchCity").val().trim();
-    // If the loc var has something
+    // If the location var has something
     if (location !== "") {
         // Clear the forecast
         $("#currentCityWeather").empty();
