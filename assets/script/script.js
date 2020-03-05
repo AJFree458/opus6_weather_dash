@@ -48,7 +48,6 @@ function getCurrent(city) {
     $.ajax({
         url: queryUrl,
         method: "GET"
-        
     }).then(function(response){
          console.log(response);
         
