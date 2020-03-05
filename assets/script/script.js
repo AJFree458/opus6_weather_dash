@@ -21,7 +21,7 @@ function initialize() {
 function setLocal() {
     savedCities.splice(savedCities.indexOf(city), 1);
     localStorage.setItem("weathercities", JSON.stringify(savedCities));
-
+    initialize();
 }
 
 function showPrev() {
@@ -44,7 +44,7 @@ function showPrev() {
 }
 
 function getCurrent(city) {
-    var queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=7eec630e32e425a54546a905cc476a3a&units=imperial";
+    var queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=charlotte&appid=7eec630e32e425a54546a905cc476a3a&units=imperial";
     $.ajax({
         url: queryUrl,
         method: "GET"
@@ -118,7 +118,7 @@ function getForecast(city) {
         var newRow = $("<div>").attr("class", "forecast");
         $("#forecastDay").append(newRow);
 
-        // Loop through the response array for the forecasts for 15:00
+        // Loop through the response array for the forecasts
         for (var i = 4; i < response.list.length; i += 8) {
             var newCol = $("<div>").attr("class", "one-fifth");
             newRow.append(newCol);
