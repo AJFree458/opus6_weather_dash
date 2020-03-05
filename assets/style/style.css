@@ -1,20 +1,14 @@
+.background {
+    background-color: 000000;
+}
+
 .uvindex {
     padding: 5px;
 }
 
 .one-fifth {
-    box-sizing: border-box;
-    width: 20%;
     margin: 5px;
     padding: 5px;
-}
-
-.one-fifth:first-child {
-    margin-left: 0px;
-}
-
-.one-fifth:last-child {
-    margin-right: 0px;
 }
 
 .forecast {
