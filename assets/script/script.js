@@ -5,7 +5,7 @@ var currentCity;
 function initialize() {
     // Get previous Cities from local storage
     savedCities = JSON.parse(localStorage.getItem("weathercities"));
-    var lastSearch;
+
     // Display last searches
     if (savedCities) {
         // Retrieve the last city
