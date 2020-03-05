@@ -13,7 +13,21 @@ function initialize() {
     if (savedCities) {
         // Retrieve the last city
         currentCity = savedCities[savedCities.length - 1];
-        showPrev();
+        if (savedCities) {
+            $("#prevCities").empty();
+    
+            for (var i = 0; i < savedCities.length; i++) {
+                var locationBtn = $("<button>").attr("id", "locationBtn").text(savedCities[i]);
+                if (savedCities[i] == currentCity) {
+                    locationBtn.attr("class", "list-group-item list-group-item-action");
+                }
+                else {
+                    locationBtn.attr("class", "list-group-item list-group-item-action");
+                }
+                btns.prepend(locationBtn);
+            }
+            $("#prevCities").append(btns);
+        }
         getCurrent(currentCity);
     }
     else {
@@ -25,25 +39,6 @@ function setLocal() {
     savedCities.splice(savedCities.indexOf(city), 1);
     localStorage.setItem("weathercities", JSON.stringify(savedCities));
     initialize();
-}
-
-function showPrev() {
-    // Display the previous city searches from local storage
-    if (savedCities) {
-        $("#prevCities").empty();
-
-        for (var i = 0; i < savedCities.length; i++) {
-            var locationBtn = $("<button>").attr("id", "locationBtn").text(savedCities[i]);
-            if (savedCities[i] == currentCity) {
-                locationBtn.attr("class", "list-group-item list-group-item-action");
-            }
-            else {
-                locationBtn.attr("class", "list-group-item list-group-item-action");
-            }
-            btns.prepend(locationBtn);
-        }
-        $("#prevCities").append(btns);
-    }
 }
 
 function saveCity(location) {
