@@ -1,5 +1,11 @@
-APIKey = "7eec630e32e425a54546a905cc476a3a"
+// Create API const
+const APIKey = "7eec630e32e425a54546a905cc476a3a";
+// Create var for current day card
+var cardHeader = $("#cardHead");
+var cardDate = $("#updateTime");
+// Create var for saved city buttons
 var btns = $("#cityBtns");
+//create var for new row in forecasts
 var newRow = $("<div>").attr("class", "forecast");
 //Local Storage saved
 var savedCities = [];
@@ -64,11 +70,11 @@ function getCurrent(city) {
         
         // Location add to card header
         var currCardHead = response.name;
-        $("#cardHead").text(currCardHead);
+        cardHeader.text(currCardHead);
 
         // Last update display
         var currDate = moment(response.dt, "X").format("LLLL");
-        $("#updateTime").text(currDate);
+        cardDate.text(currDate);
 
         //City name
         $("#city").text(response.name);
