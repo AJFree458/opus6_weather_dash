@@ -19,7 +19,6 @@ var currentCity;
 function initialize() {
     // Get previous Cities from local storage
     searchHistory = JSON.parse(localStorage.getItem("weathercities"));
-
     // Display last searches
     if (searchHistory !== null) {
         // Retrieve the last city
@@ -27,7 +26,6 @@ function initialize() {
         // Display previous cities
         if (searchHistory) {
             $("#prevCities").empty();
-    
             for (var i = 0; i < searchHistory.length; i++) {
                 var locationBtn = $("<button>").attr("id", "locationBtn").text(searchHistory[i]);
                 if (searchHistory[i] == currentCity) {
