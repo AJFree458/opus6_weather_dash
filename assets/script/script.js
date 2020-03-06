@@ -131,7 +131,7 @@ function getForecast(city) {
         $("#forecastDay").append(newRow);
         // Loop through the response array for the forecasts
         for (var i = 5; i < response.list.length; i += 8) {
-            var newCard = $("<div>").attr("class", "card text-white bg-primary col-md m-5 p-5");
+            var newCard = $("<div>").attr("class", "card text-white bg-primary col-md m-1 p-1");
             newRow.append(newCard);
             var forecastDate = moment(response.list[i].dt, "X").format("dddd, MMMM Do YYYY");
             var cardHead = $("<div>").attr("class", "card-header");
